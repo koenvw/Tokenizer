@@ -169,5 +169,5 @@ int main(int argc, char* argv[])
   }
   learner->learn(*pCout, "Generated with subword_learn cli");
 
-  return 1;
+  return 0;
 }
