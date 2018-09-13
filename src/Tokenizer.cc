@@ -1,6 +1,7 @@
 #include "onmt/Tokenizer.h"
 
 #include <algorithm>
+#include <map>
 #include <mutex>
 
 #include "onmt/Alphabet.h"
@@ -678,7 +679,11 @@ namespace onmt
 
   bool Tokenizer::is_placeholder(const std::string& str)
   {
-    return str.find(ph_marker_open) == 0;
+    size_t ph_begin = str.find(ph_marker_open);
+    if (ph_begin == std::string::npos)
+      return false;
+    size_t min_ph_end = ph_begin + ph_marker_open.length() + 1;
+    return str.find(ph_marker_close, min_ph_end) != std::string::npos;
   }
 
 }

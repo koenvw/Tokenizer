@@ -16,6 +16,7 @@ The code is converted from bpe_learn.py (https://github.com/rsennrich/subword-nm
 #include <fstream>
 #include <limits>
 #include <list>
+#include <map>
 
 #include "onmt/unicode/Unicode.h"
 #include "onmt/Tokenizer.h"
@@ -27,7 +28,7 @@ namespace onmt
 
   std::string _S(const sequence &s) {
     std::string t;
-    for(auto w: s)
+    for(const auto& w: s)
       t += ", u'" + w + "'";
     return "(" + t.substr(2) + ")";
   }
@@ -59,8 +60,8 @@ namespace onmt
           sequence words;
           std::vector<sequence> features;
           pTok->tokenize(line, words, features);
-          for(auto w: words) {
-            if (w.find(Tokenizer::ph_marker_open) == std::string::npos)
+          for(const auto& w: words) {
+            if (!Tokenizer::is_placeholder(w))
               _vocab[w]++;
           }
         }
